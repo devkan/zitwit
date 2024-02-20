@@ -7,7 +7,9 @@ import Login from "./routes/login";
 import Signin from "./routes/signin";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-
+import { useEffect } from "react";
+import Loading from "./component/loading";
+import { useState } from "react";
 
 // router
 const router = createBrowserRouter([
@@ -51,10 +53,23 @@ const GlobalSytles = createGlobalStyle`
 `;
 
 function App() {
+
+  // firebase가 사용자를 확인하는 동안 loading을 걸어둠
+  const [isLoading, setLoading] = useState(true);
+  const init = async() => {
+    // wait for firebase
+    setLoading(false);
+    //setTimeout(() => setLoading(false), 2000);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return(
     <>
       <GlobalSytles/>
-      <RouterProvider router={router}/>
+      {isLoading ? <Loading/> : <RouterProvider router={router}/>}      
     </>
   ) 
 }
