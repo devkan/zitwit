@@ -12,20 +12,25 @@ import Loading from "./component/loading";
 import { useState } from "react";
 import { auth } from "./firebase"; // firebase.ts에서 auth를 가져옴
 import { styled } from "styled-components";
+import Protect from "./component/protect";
 
 // router
 const router = createBrowserRouter([
  {
 		path: "/",
-    element: <Layout/>,
+    element: (
+      <Protect>
+       <Layout/>,
+      </Protect>
+    ),
     children: [
       {
         path: "",
-        element: <Home/>,
+        element: <Home/>
       },
       {
         path: "profile",
-        element: <Profile/>,
+        element: <Profile/>
       }
     ]
   },

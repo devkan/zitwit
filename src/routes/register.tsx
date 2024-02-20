@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 const Wrapper = styled.div`
 	height: 100%;
@@ -77,8 +78,10 @@ export default function Signin(){
 			navigate("/");
 
 		}catch(e){
-			console.log(e);
-			//setError(e.message);
+			if(e instanceof FirebaseError){	
+				console.log(e.code, e.message); // error code, error message
+				//setError(e.message);
+			}
 		}finally{
 			setLoading(false);
 		}
