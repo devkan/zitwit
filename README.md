@@ -51,7 +51,7 @@ Follow these steps to get Zitwit running on your local machine:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/zitwit.git
+   git clone https://github.com/devkan/zitwit.git
    cd zitwit
    ```
 
@@ -64,7 +64,7 @@ Follow these steps to get Zitwit running on your local machine:
    ```bash
    npm run dev
    ```
-   Visit `http://localhost:3000` to view the application in action.
+   Visit `http://localhost:5173` to view the application in action.
 
 ## Contributing
 
@@ -82,4 +82,4 @@ This project is open-sourced under the [MIT License](LICENSE).
 
 ## Contact
 
-If you have any questions or suggestions about Zitwit, feel free to use the issue tracker or contact us via [email](mailto:your.email@example.com).
+If you have any questions or suggestions about Zitwit, feel free to use the issue tracker.
