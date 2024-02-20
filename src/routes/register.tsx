@@ -2,8 +2,12 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
+
+const errors = {
+	"auth/email-already-in-use": "That email is already exists.",
+}
 
 const Wrapper = styled.div`
 	height: 100%;
@@ -18,6 +22,7 @@ const Title = styled.h1`
 `;
 const Form = styled.form`
 	margin-top: 50px;
+	margin-bottom: 10px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -42,6 +47,11 @@ const Error = styled.span`
 	color: tomato;
 `;
 
+const Switcher = styled.span`
+	margin-top: 20px;
+	a { color: #1b63cedd}
+`;
+
 export default function Signin(){
 	const navigate = useNavigate(); // useNavigate를 사용하여 페이지를 이동시킴. hook
 	const [isLoading, setLoading] = useState(false); // 계정 생성후 state를 true로 변경할 것임
@@ -61,6 +71,7 @@ export default function Signin(){
 
 	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setError("");
 		//console.log(name, email, password);
 
 		if(isLoading || name === "" || email === "" || password === "") return;
@@ -79,8 +90,8 @@ export default function Signin(){
 
 		}catch(e){
 			if(e instanceof FirebaseError){	
-				console.log(e.code, e.message); // error code, error message
-				//setError(e.message);
+				//console.log(e.code, e.message); // error code, error message
+				setError(e.message);
 			}
 		}finally{
 			setLoading(false);
@@ -94,9 +105,13 @@ export default function Signin(){
 				<INPUT name="name" value={name} onChange={onChange} placeholder="Name" type="text" required/>
 				<INPUT name="email" value={email} onChange={onChange} placeholder="Email" type="email" required/>
 				<INPUT name="password" value={password} onChange={onChange} placeholder="Password" type="password" required />
-				<INPUT type="submit" value={isLoading? "Loading" : "Regist"}/>
+				<INPUT type="submit" value={isLoading? "Loading" : "Create Account"}/>
 			</Form>
 			{error !== ""? <Error>{error}</Error> : null}
+			<Switcher>
+				Already have an account? <Link to="/login">Log in</Link>
+			</Switcher>
+
 		</Wrapper>		
 	);
 }
