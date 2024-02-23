@@ -20,7 +20,7 @@ const router = createBrowserRouter([
 		path: "/",
     element: (
       <Protect>
-       <Layout/>,
+        <Layout/>
       </Protect>
     ),
     children: [
@@ -53,8 +53,8 @@ const GlobalSytles = createGlobalStyle`
   }
   
   body{
-    background-color: #f8f9fa;
-    color:#2a2a2a;
+    background-color: #2a2a2a ;
+    color:#f9f9f9;
     font-family: 'Noto Sans KR', sans-serif, system-ui;
   }
 `;
