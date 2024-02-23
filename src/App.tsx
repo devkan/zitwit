@@ -57,6 +57,10 @@ const GlobalSytles = createGlobalStyle`
     color:#f9f9f9;
     font-family: 'Noto Sans KR', sans-serif, system-ui;
   }
+
+  ::-webkit-scrollbar {
+    display:none;
+  }  
 `;
 
 const Wrapper = styled.div`
