@@ -105,13 +105,14 @@ export default function PostTweetForm(){
 
 				setTweet(""); // 업로드후 초기화
 				setFile(null); // file도 초기화
+
 			}
 			// storage에 파일을 업로드하는 과정임
 		}
 		catch(e){
 			console.log(e);
 		}finally{
-			setLoading(true);
+			setLoading(false);
 		}	
 	}
 	return(
