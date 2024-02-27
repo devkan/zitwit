@@ -185,15 +185,15 @@ export default function Profile(){
 	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setError("");
-		//console.log(name, email, password);
+
+		const user = auth.currentUser;
+		if(!user) return;
 
 		if(isLoading || modifyName === "") return;
 
-		const user = auth.currentUser;
 		try {
 			setLoading(true);
-			await updateProfile(user, {photoURL: avatarUrl});
-
+			await updateProfile(user, { displayName: modifyName});
 		}catch(e){
 			if(e instanceof FirebaseError){	
 				//console.log(e.code, e.message); // error code, error message
@@ -201,6 +201,9 @@ export default function Profile(){
 			}
 		}finally{
 			setLoading(false);
+
+			setModifyName(modifyName); // 서버로부터 받은 새 닉네임으로 상태 업데이트
+			setIsEditing(false); // 수정 모드 종료	
 		}
 	};
 	
@@ -219,12 +222,12 @@ export default function Profile(){
 				</Name>
 				) : (
 				<Form onSubmit={onSubmit}>
-					<INPUT name="modify_name" value={modifyName} onChange={onChange} type="text" required/>
+					<INPUT name="modify_name" value={modifyName ?? ''} onChange={onChange} type="text" required/>
+					{/* value={modifyName}로 지정하면 오류가 발생한다. */}
 					<SubmitButton type="submit">{isLoading? "Loading" : "Modify"}</SubmitButton>
 				</Form>			
 				)
 			}
-
 
 			<Tweets>
 				{tweets.map(tweet=><Tweet key={tweet.id} {...tweet}/>)}
