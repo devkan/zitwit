@@ -7,6 +7,7 @@ import { collection, getDocs, limit, orderBy, query, where } from "firebase/fire
 import { ITweet } from "../component/timeline";
 import { set } from "firebase/database";
 import Tweet from "../component/tweet";
+import { FirebaseError } from "firebase/app";
 
 const Wrapper = styled.div`
 	display:flex;
@@ -50,6 +51,54 @@ const Tweets = styled.div`
 	flex-direction:column;
 	gap:20px;
 `;
+
+const Form = styled.form`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: center;
+	width: 100%;
+`;
+
+const ModifyButton = styled.button`
+	background-color: #1d9bf0;
+	color:white;
+	font-weight:600;
+	border:0;
+	font-size:12px;
+	padding: 5px 10px;
+	text-transform:uppercase;
+	border-radius:5px;
+	cusor:pointer;
+`;
+
+const INPUT = styled.input`
+	padding: 10px 20px;
+	border-radius: 50px;
+	border: none;
+	width: 50%;
+	font-size: 16px;
+	&[type="submit"] {
+		cursor: pointer;
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+`;
+
+const SubmitButton = styled.button`
+	background-color: #1d9bf0;
+	color:white;
+	font-weight:600;
+	border:0;
+	font-size:12px;
+	padding: 5px 10px;
+	text-transform:uppercase;
+	border-radius:5px;
+	cusor:pointer;
+	width: 20%;
+`;
+
 
 
 export default function Profile(){
@@ -117,16 +166,66 @@ export default function Profile(){
 	}, []);
 
 
+	// name modify
+	const [isEditing, setIsEditing] = useState(false);
+	const [modifyName, setModifyName] = useState(user?.displayName); // state에 연결시킴
+	const [isLoading, setLoading] = useState(false); // 계정 생성후 state를 true로 변경할 것임
+	const [error, setError] = useState(""); // state에 연결시킴
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { target: { name, value } } = e;
+		if(name === "modify_name") setModifyName(value);
+	};
+
+	const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setError("");
+		//console.log(name, email, password);
+
+		if(isLoading || modifyName === "") return;
+
+		const user = auth.currentUser;
+		try {
+			setLoading(true);
+			await updateProfile(user, {photoURL: avatarUrl});
+
+		}catch(e){
+			if(e instanceof FirebaseError){	
+				//console.log(e.code, e.message); // error code, error message
+				setError(e.message);
+			}
+		}finally{
+			setLoading(false);
+		}
+	};
+	
+
 	return (
 		<Wrapper>
 			<AvatarUpload htmlFor="avatar">
 				{avatar ? (<AvatarImg src={avatar}/>) : (<DefaultAvatar />)}
 			</AvatarUpload>
 			<AvatarInput onChange={onAvatarChange} id="avatar" type="file" accept="image/*"/>
-			<Name>
-				{user?.displayName?? "Anonymous"}
-				{/* {user?.displayName?user.displayName: "Anonymous"} 를 축약한 것임 */}				
-			</Name>
+			{!isEditing ? (
+				<Name>
+					{user?.displayName?? "Anonymous"}
+					{/* {user?.displayName?user.displayName: "Anonymous"} 를 축약한 것임 */}
+					<ModifyButton onClick={handleEditClick}>Modify</ModifyButton>
+				</Name>
+				) : (
+				<Form onSubmit={onSubmit}>
+					<INPUT name="modify_name" value={modifyName} onChange={onChange} type="text" required/>
+					<SubmitButton type="submit">{isLoading? "Loading" : "Modify"}</SubmitButton>
+				</Form>			
+				)
+			}
+
+
 			<Tweets>
 				{tweets.map(tweet=><Tweet key={tweet.id} {...tweet}/>)}
 			</Tweets>
