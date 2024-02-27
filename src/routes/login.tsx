@@ -1,57 +1,16 @@
 import React, { useState } from "react";
-import { styled } from "styled-components";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import GithubButton from "../component/github-button";
+import { Error, Form, INPUT, Switcher, Title, Wrapper } from "../component/auth-components";
 
 const errors = {
 	"auth/email-already-in-use": "That email is already exists.",
 }
 
-const Wrapper = styled.div`
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 420px;
-	padding: 50px 0px;
-`;
-const Title = styled.h1`
-	font-size: 42px;
-`;
-const Form = styled.form`
-	margin-top: 50px;
-	margin-bottom: 10px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	width: 100%;
-`;
-const INPUT = styled.input`
-	padding: 10px 20px;
-	border-radius: 50px;
-	border: none;
-	width: 100%;
-	font-size: 16px;
-	&[type="submit"] {
-		cursor: pointer;
-		&:hover {
-			opacity: 0.8;
-		}
-	}
-`;
 
-const Error = styled.span`
-	font-weight: 600;
-	color: tomato;
-`;
-
-const Switcher = styled.span`
-	margin-top: 20px;
-	a { color: #1b63cedd}
-`;
 
 export default function Signin(){
 	const navigate = useNavigate(); // useNavigate를 사용하여 페이지를 이동시킴. hook

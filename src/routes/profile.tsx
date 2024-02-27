@@ -5,7 +5,6 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { ITweet } from "../component/timeline";
-import { set } from "firebase/database";
 import Tweet from "../component/tweet";
 import { FirebaseError } from "firebase/app";
 
@@ -69,7 +68,7 @@ const ModifyButton = styled.button`
 	padding: 5px 10px;
 	text-transform:uppercase;
 	border-radius:5px;
-	cusor:pointer;
+	cursor:pointer;
 `;
 
 const INPUT = styled.input`
@@ -95,7 +94,7 @@ const SubmitButton = styled.button`
 	padding: 5px 10px;
 	text-transform:uppercase;
 	border-radius:5px;
-	cusor:pointer;
+	cursor:pointer;
 	width: 20%;
 `;
 
@@ -170,7 +169,7 @@ export default function Profile(){
 	const [isEditing, setIsEditing] = useState(false);
 	const [modifyName, setModifyName] = useState(user?.displayName); // state에 연결시킴
 	const [isLoading, setLoading] = useState(false); // 계정 생성후 state를 true로 변경할 것임
-	const [error, setError] = useState(""); // state에 연결시킴
+	const [, setError] = useState(""); // 시용하지 않아서 error 제거함
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
