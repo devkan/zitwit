@@ -6,9 +6,9 @@ import { FirebaseError } from "firebase/app";
 import GithubButton from "../component/github-button";
 import { Form, Error, INPUT, Switcher, Title, Wrapper } from "../component/auth-components";
 
-const errors = {
-	"auth/email-already-in-use": "That email is already exists.",
-}
+//const errors = {
+//	"auth/email-already-in-use": "That email is already exists.",
+//}
 
 
 

@@ -6,9 +6,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import GithubButton from "../component/github-button";
 import { Error, Form, INPUT, Switcher, Title, Wrapper } from "../component/auth-components";
 
-const errors = {
-	"auth/email-already-in-use": "That email is already exists.",
-}
+//const errors = {
+//	"auth/email-already-in-use": "That email is already exists.",
+//}
 
 
 

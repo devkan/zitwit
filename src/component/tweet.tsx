@@ -34,7 +34,7 @@ const Payload = styled.p`
 	font-size: 18px;
 `;
 
-const ModifyButton = styled.button``;
+//const ModifyButton = styled.button``;
 
 const DeleteButton = styled.button`
 	background-color: tomato;
